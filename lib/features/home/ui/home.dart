@@ -13,6 +13,12 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> {
+  @override
+  void initState() {
+    homeBloc.add(HomeInitialEvent());
+    super.initState();
+  }
+
   final HomeBloc homeBloc = HomeBloc();
   @override
   Widget build(BuildContext context) {
@@ -29,25 +35,47 @@ class _HomeState extends State<Home> {
         }
       },
       builder: (context, state) {
-        return Scaffold(
-          appBar: AppBar(
-            title: Text("Bloc Grocery App"),
-            actions: [
-              IconButton(
-                onPressed: () {
-                  homeBloc.add(HomeWishlistButtonNavigateClickedEvent());
-                },
-                icon: Icon(Icons.favorite),
+        switch (state.runtimeType) {
+          case HomeLoadingState:
+            return Scaffold(
+              body: Center(
+                child: CircularProgressIndicator(),
               ),
-              IconButton(
-                onPressed: () {
-                  homeBloc.add(HomeCartButtonNavigateClickedEvent());
-                },
-                icon: Icon(Icons.shopping_bag),
+            );
+
+          case HomeLoadingSuccessState:
+            return Scaffold(
+              appBar: AppBar(
+                title: Text("Bloc Grocery App"),
+                actions: [
+                  IconButton(
+                    onPressed: () {
+                      homeBloc.add(HomeWishlistButtonNavigateClickedEvent());
+                    },
+                    icon: Icon(Icons.favorite),
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      homeBloc.add(HomeCartButtonNavigateClickedEvent());
+                    },
+                    icon: Icon(Icons.shopping_bag),
+                  ),
+                ],
               ),
-            ],
-          ),
-        );
+            );
+          case HomeErrorState:
+            return Scaffold(
+              body: Center(
+                child: Text(
+                  "Error",
+                  style: TextStyle(fontSize: 40, fontWeight: FontWeight.bold),
+                ),
+              ),
+            );
+          default:
+            return SizedBox();
+
+        }
       },
     );
   }

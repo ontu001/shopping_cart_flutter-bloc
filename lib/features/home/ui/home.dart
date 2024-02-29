@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shopping_crat_flutter_bloc/features/cart/ui/cart.dart';
 import 'package:shopping_crat_flutter_bloc/features/home/bloc/home_bloc.dart';
+import 'package:shopping_crat_flutter_bloc/features/home/ui/products_tile.dart';
 import 'package:shopping_crat_flutter_bloc/features/wishlist/ui/wishlist.dart';
 
 class Home extends StatefulWidget {
@@ -44,6 +45,7 @@ class _HomeState extends State<Home> {
             );
 
           case HomeLoadingSuccessState:
+            final successState = state as HomeLoadingSuccessState;
             return Scaffold(
               appBar: AppBar(
                 title: Text("Bloc Grocery App"),
@@ -62,6 +64,13 @@ class _HomeState extends State<Home> {
                   ),
                 ],
               ),
+              body: ListView.builder(
+                itemCount: successState.products.length,
+                itemBuilder: (context, index) {
+                  return ProductTile(
+                      produtDataModel: successState.products[index]);
+                },
+              ),
             );
           case HomeErrorState:
             return Scaffold(
@@ -74,7 +83,6 @@ class _HomeState extends State<Home> {
             );
           default:
             return SizedBox();
-
         }
       },
     );

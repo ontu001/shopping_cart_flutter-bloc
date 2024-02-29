@@ -34,6 +34,12 @@ class _HomeState extends State<Home> {
         } else if (state is HomeNavigateToWhislistPageActinonState) {
           Navigator.push(
               context, MaterialPageRoute(builder: (_) => WishList()));
+        } else if (state is HomeProductWishlistActionState) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("Add to Favourite"),duration: (Duration(milliseconds: 120)),));
+        } else if (state is HomeProductCartActionState) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text("Add to Cart"),duration: (Duration(milliseconds: 120))));
         }
       },
       builder: (context, state) {
@@ -71,6 +77,7 @@ class _HomeState extends State<Home> {
                 itemCount: successState.products.length,
                 itemBuilder: (context, index) {
                   return ProductTile(
+                      homeBloc: homeBloc,
                       produtDataModel: successState.products[index]);
                 },
               ),

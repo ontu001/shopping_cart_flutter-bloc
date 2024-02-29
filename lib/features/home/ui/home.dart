@@ -5,6 +5,7 @@ import 'package:shopping_crat_flutter_bloc/features/cart/ui/cart.dart';
 import 'package:shopping_crat_flutter_bloc/features/home/bloc/home_bloc.dart';
 import 'package:shopping_crat_flutter_bloc/features/home/ui/products_tile.dart';
 import 'package:shopping_crat_flutter_bloc/features/wishlist/ui/wishlist.dart';
+import 'package:shopping_crat_flutter_bloc/utilities/constant.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -40,7 +41,9 @@ class _HomeState extends State<Home> {
           case HomeLoadingState:
             return Scaffold(
               body: Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  color: kCommonColor,
+                ),
               ),
             );
 
